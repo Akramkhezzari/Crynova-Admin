@@ -1,1 +1,1520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم المسؤول - Crynova</title>
+  <style>
+    /* ========== إعدادات عامة للهاتف ========== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
 
+    :root {
+      --primary: #007AFF;
+      --secondary: #5856D6;
+      --success: #34C759;
+      --danger: #FF3B30;
+      --warning: #FF9500;
+      --dark: #1C1C1E;
+      --light: #F2F2F7;
+      --border: #C7C7CC;
+      --card-bg: #FFFFFF;
+      --background: #F2F2F7;
+    }
+
+    body {
+      background: var(--background);
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 0;
+      margin: 0;
+    }
+
+    /* ========== تصميم الهاتف الكامل ========== */
+    .mobile-container {
+      width: 100%;
+      min-height: 100vh;
+      max-width: 100%;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* شريط الحالة للهاتف - مخفي */
+    .status-bar {
+      display: none;
+    }
+
+    /* هيدر التطبيق */
+    .app-header {
+      background: var(--primary);
+      color: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-logo {
+      width: 36px;
+      height: 36px;
+      background: white;
+      color: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .app-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logout-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* محتوى التطبيق */
+    .app-content {
+      padding: 16px;
+      padding-bottom: 80px; /* مساحة للقائمة السفلية */
+    }
+
+    /* بطاقات الإحصائيات للهاتف */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #8E8E93;
+    }
+
+    /* أقسام المحتوى */
+    .content-section {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .section-badge {
+      background: var(--primary);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* قائمة المستخدمين للهاتف */
+    .users-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .user-card {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .user-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .user-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .user-details {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .user-id {
+      font-size: 13px;
+      color: #8E8E93;
+    }
+
+    .user-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+
+    .status-dot.new {
+      background: var(--warning);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .user-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-item-label {
+      font-size: 12px;
+      color: #8E8E93;
+      margin-bottom: 4px;
+    }
+
+    .stat-item-value {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    /* أزرار الإجراءات للهاتف */
+    .action-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .action-btn {
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.98);
+    }
+
+    .action-btn.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--light);
+      color: var(--dark);
+      border: 1px solid var(--border);
+    }
+
+    /* زر الهدية السريع - تصميم مميز للهاتف */
+    .quick-gift-btn {
+      background: linear-gradient(135deg, #34C759, #30D158);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .quick-gift-btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 2px 8px rgba(52, 199, 89, 0.3);
+    }
+
+    .quick-gift-btn.loading {
+      opacity: 0.8;
+      cursor: wait;
+    }
+
+    /* نموذج الهدية للهاتف */
+    .gift-form {
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--light);
+      font-size: 16px;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--light);
+      font-size: 16px;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .amount-preview {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 8px;
+      font-size: 14px;
+      color: #8E8E93;
+    }
+
+    /* قائمة التنقل السفلية للهاتف */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-bg);
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding: 12px 16px;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      padding: 12px 0;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-item:active {
+      background: var(--light);
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-icon {
+      font-size: 20px;
+    }
+
+    .nav-label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* صفحة تسجيل الدخول للهاتف */
+    .login-container {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .login-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 40px;
+      margin: 0 auto 20px;
+    }
+
+    .login-title {
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+      color: #8E8E93;
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 18px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .login-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* الرسائل والإشعارات للهاتف */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      background: var(--dark);
+      color: white;
+      padding: 16px;
+      border-radius: 14px;
+      z-index: 9999;
+      font-weight: 600;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .toast.success {
+      background: var(--success);
+    }
+
+    .toast.error {
+      background: var(--danger);
+    }
+
+    .toast.warning {
+      background: var(--warning);
+    }
+
+    /* نافذة تأكيد للهاتف */
+    .confirm-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 9999;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .confirm-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: scaleIn 0.3s ease;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .confirm-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .confirm-message {
+      color: #8E8E93;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .confirm-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .confirm-btn {
+      flex: 1;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .confirm-btn.cancel {
+      background: var(--light);
+      color: var(--dark);
+    }
+
+    .confirm-btn.confirm {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* شاشة التحميل للهاتف */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--card-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid var(--light);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* رسالة عدم وجود بيانات */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: #8E8E93;
+    }
+
+    .empty-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-text {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .empty-subtext {
+      font-size: 14px;
+      opacity: 0.7;
+    }
+
+    /* إخفاء عناصر الكمبيوتر */
+    .desktop-only {
+      display: none;
+    }
+
+    /* تحسينات للأجهزة الكبيرة */
+    @media (min-width: 768px) {
+      .mobile-container {
+        max-width: 768px;
+        margin: 0 auto;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        min-height: 100vh;
+      }
+    }
+
+    /* دعم الألوان المظلمة */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --dark: #FFFFFF;
+        --light: #1C1C1E;
+        --border: #38383A;
+        --card-bg: #2C2C2E;
+        --background: #000000;
+      }
+      
+      .app-header {
+        background: var(--card-bg);
+        border-bottom: 1px solid var(--border);
+      }
+      
+      .stat-card, .content-section, .user-card, .gift-form {
+        background: var(--card-bg);
+        border-color: var(--border);
+      }
+      
+      .bottom-nav {
+        background: var(--card-bg);
+        border-color: var(--border);
+      }
+      
+      .login-card {
+        background: var(--card-bg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- صفحة تسجيل الدخول -->
+  <div id="loginPage" class="login-container">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-icon">🔐</div>
+        <h1 class="login-title">تسجيل دخول المسؤول</h1>
+        <p class="login-subtitle">لوحة تحكم Crynova Wallet</p>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">اسم المستخدم</label>
+        <input type="text" id="adminUsername" class="form-input" placeholder="أدخل اسم المستخدم" value="admin">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">كلمة المرور</label>
+        <input type="password" id="adminPassword" class="form-input" placeholder="أدخل كلمة المرور" value="admin123">
+      </div>
+      
+      <button class="login-btn" onclick="adminLogin()">تسجيل الدخول</button>
+      
+      <div style="text-align: center; margin-top: 24px; font-size: 12px; color: #8E8E93;">
+        © 2025 Crynova - للاستخدام الداخلي فقط
+      </div>
+    </div>
+  </div>
+
+  <!-- لوحة التحكم الرئيسية -->
+  <div id="adminPanel" class="mobile-container" style="display: none;">
+    <!-- تم إزالة شريط الحالة -->
+    
+    <!-- هيدر التطبيق -->
+    <div class="app-header">
+      <div class="header-left">
+        <button class="back-btn" id="backBtn" style="display: none;">←</button>
+        <div class="app-logo">C</div>
+        <div>
+          <div class="app-title" id="pageTitle">لوحة التحكم</div>
+          <div style="font-size: 12px; opacity: 0.8;" id="pageSubtitle">Crynova Admin</div>
+        </div>
+      </div>
+      
+      <div class="header-right">
+        <button class="logout-btn" onclick="adminLogout()">خروج</button>
+      </div>
+    </div>
+    
+    <!-- المحتوى الرئيسي -->
+    <div class="app-content" id="appContent">
+      <!-- سيتم ملؤه ديناميكياً -->
+    </div>
+    
+    <!-- قائمة التنقل السفلية -->
+    <div class="bottom-nav">
+      <button class="nav-item active" data-page="dashboard" onclick="loadPage('dashboard')">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">الرئيسية</span>
+      </button>
+      <button class="nav-item" data-page="settings" onclick="loadPage('settings')">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">إعدادات</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- شاشة التحميل -->
+  <div id="loadingScreen" class="loading-screen" style="display: none;">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">جاري التحميل...</div>
+  </div>
+
+  <!-- نافذة التأكيد -->
+  <div id="confirmModal" class="confirm-modal" style="display: none;">
+    <div class="confirm-card">
+      <h3 class="confirm-title" id="confirmTitle">تأكيد الإجراء</h3>
+      <p class="confirm-message" id="confirmMessage">هل أنت متأكد من تنفيذ هذا الإجراء؟</p>
+      <div class="confirm-buttons">
+        <button class="confirm-btn cancel" onclick="hideConfirm()">إلغاء</button>
+        <button class="confirm-btn confirm" onclick="confirmAction()">تأكيد</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+  
+  <script>
+    // ========== إعداد Firebase ==========
+    const firebaseConfig = {
+      apiKey: "AIzaSyBX8v0qIVjG-Z46fVDeEUDKcPxa_FQF9Qc",
+      authDomain: "bnak-belaiba.firebaseapp.com",
+      projectId: "bnak-belaiba",
+      storageBucket: "bnak-belaiba.firebasestorage.app",
+      messagingSenderId: "286736432059",
+      appId: "1:286736432059:web:ec1ed4292850f00008229e"
+    };
+
+    // تهيئة Firebase
+    let db;
+    try {
+      const app = firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      console.log('✅ Firebase initialized successfully');
+    } catch (error) {
+      console.error('❌ Firebase initialization error:', error);
+    }
+
+    // معلومات العملات الرقمية
+    const coinInfo = {
+      'USDT': { name: 'Tether', icon: '＄', color: '#26a17b', value: 1.0 },
+      'CNC': { name: 'Crynova Coin', icon: 'C', color: '#007AFF', value: 0.50 },
+      'BTC': { name: 'Bitcoin', icon: '₿', color: '#f7931a', value: 68423.50 },
+      'ETH': { name: 'Ethereum', icon: 'Ξ', color: '#627eea', value: 3812.75 }
+    };
+
+    // بيانات التطبيق
+    let currentAdmin = null;
+    let allUsers = [];
+    let newUsers = [];
+    let pendingConfirm = null;
+    let currentPage = 'dashboard';
+    
+    // بيانات الهدايا - لضمان عدم تكرار الهدية
+    let giftHistory = JSON.parse(localStorage.getItem('crynova_gift_history') || '{}');
+
+    // ========== تهيئة التطبيق ==========
+    document.addEventListener('DOMContentLoaded', function() {
+      // إزالة تحديث الوقت (لأن الشريط مخفي)
+      // إضافة أحداث لوحة المفاتيح
+      document.getElementById('adminPassword')?.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') adminLogin();
+      });
+      
+      // تحميل الإعدادات المحفوظة
+      loadSettings();
+    });
+
+    // ========== دوال واجهة المستخدم ==========
+    // تم إزالة دالة updateTime لأن شريط الحالة مخفي
+
+    function showLoading(show) {
+      document.getElementById('loadingScreen').style.display = show ? 'flex' : 'none';
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    function showConfirm(title, message, callback) {
+      pendingConfirm = callback;
+      document.getElementById('confirmTitle').textContent = title;
+      document.getElementById('confirmMessage').textContent = message;
+      document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    function hideConfirm() {
+      document.getElementById('confirmModal').style.display = 'none';
+      pendingConfirm = null;
+    }
+
+    function confirmAction() {
+      if (pendingConfirm) {
+        pendingConfirm();
+      }
+      hideConfirm();
+    }
+
+    // ========== دوال إدارة الصفحات ==========
+    function loadPage(page) {
+      currentPage = page;
+      
+      // تحديث القائمة السفلية
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.page === page) {
+          item.classList.add('active');
+        }
+      });
+      
+      // إظهار/إخفاء زر الرجوع
+      const backBtn = document.getElementById('backBtn');
+      backBtn.style.display = page === 'dashboard' ? 'none' : 'flex';
+      
+      // تحميل المحتوى
+      loadPageContent(page);
+    }
+
+    async function loadPageContent(page) {
+      const content = document.getElementById('appContent');
+      
+      switch(page) {
+        case 'dashboard':
+          await loadDashboard();
+          break;
+        case 'settings':
+          await loadSettingsPage();
+          break;
+      }
+    }
+
+    function updatePageTitle(title, subtitle = '') {
+      document.getElementById('pageTitle').textContent = title;
+      document.getElementById('pageSubtitle').textContent = subtitle;
+    }
+
+    // ========== دوال تسجيل الدخول ==========
+    async function adminLogin() {
+      const username = document.getElementById('adminUsername').value;
+      const password = document.getElementById('adminPassword').value;
+      
+      if (!username || !password) {
+        showToast('❌ يرجى إدخال جميع البيانات', 'error');
+        return;
+      }
+      
+      showLoading(true);
+      
+      // محاكاة تأخير الشبكة
+      setTimeout(async () => {
+        try {
+          // بيانات المسؤولين
+          const adminUsers = [
+            { username: "admin", password: "admin123", name: "المسؤول الرئيسي" },
+            { username: "crynova", password: "crynova2025", name: "مشرف Crynova" }
+          ];
+          
+          const admin = adminUsers.find(u => u.username === username && u.password === password);
+          
+          if (admin) {
+            currentAdmin = admin;
+            showToast(`✅ مرحباً ${admin.name}`);
+            
+            // الانتقال للوحة التحكم
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminPanel').style.display = 'block';
+            
+            // تحميل البيانات
+            await loadAppData();
+            
+          } else {
+            showToast('❌ بيانات الدخول غير صحيحة', 'error');
+          }
+        } catch (error) {
+          console.error('❌ Login error:', error);
+          showToast('❌ حدث خطأ في الاتصال', 'error');
+        } finally {
+          showLoading(false);
+        }
+      }, 1000);
+    }
+
+    function adminLogout() {
+      showConfirm('تسجيل الخروج', 'هل أنت متأكد من تسجيل الخروج؟', () => {
+        currentAdmin = null;
+        document.getElementById('adminPanel').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'flex';
+        showToast('✅ تم تسجيل الخروج');
+      });
+    }
+
+    // ========== دوال تحميل البيانات ==========
+    async function loadAppData() {
+      showLoading(true);
+      try {
+        await loadUsersData();
+        loadDashboard();
+      } catch (error) {
+        console.error('❌ Error loading app data:', error);
+        showToast('❌ حدث خطأ في تحميل البيانات', 'error');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    async function loadUsersData() {
+      try {
+        if (!db) {
+          // بيانات تجريبية للتطوير
+          allUsers = generateMockUsers(15);
+          updateUsersLists();
+          return;
+        }
+        
+        const walletsSnapshot = await db.collection('wallets').get();
+        const users = [];
+        
+        walletsSnapshot.forEach(doc => {
+          const walletData = doc.data();
+          const userId = walletData.userId;
+          
+          // حساب الرصيد الإجمالي
+          let totalBalance = 0;
+          if (walletData.balances) {
+            Object.entries(walletData.balances).forEach(([symbol, amount]) => {
+              const coinValue = coinInfo[symbol]?.value || 0;
+              totalBalance += amount * coinValue;
+            });
+          }
+          
+          // المستخدم جديد إذا أنشئ خلال 3 أيام ولم يتلق هدية
+          const createdAt = walletData.createdAt ? walletData.createdAt.toDate() : new Date();
+          const isNew = (new Date() - createdAt) < (3 * 24 * 60 * 60 * 1000) && !walletData.hasReceivedGift;
+          
+          users.push({
+            id: userId,
+            name: walletData.userName || `مستخدم ${userId.substring(0, 6)}`,
+            username: walletData.username || 'غير متوفر',
+            createdAt: createdAt,
+            totalBalance: totalBalance,
+            balances: walletData.balances || {},
+            isNew: isNew,
+            hasReceivedGift: walletData.hasReceivedGift || false,
+            giftCount: walletData.giftCount || 0,
+            lastGiftDate: walletData.lastGiftDate ? walletData.lastGiftDate.toDate() : null
+          });
+        });
+        
+        allUsers = users.sort((a, b) => b.createdAt - a.createdAt);
+        updateUsersLists();
+        
+      } catch (error) {
+        console.error('❌ Error loading users:', error);
+        throw error;
+      }
+    }
+
+    function updateUsersLists() {
+      // المستخدمون الجدد (لم يتلقوا هدية)
+      newUsers = allUsers.filter(user => user.isNew && !user.hasReceivedGift);
+      
+      // تحديث الصفحات إذا كانت نشطة
+      if (currentPage === 'dashboard') {
+        loadPageContent(currentPage);
+      }
+    }
+
+    // ========== صفحة الرئيسية ==========
+    async function loadDashboard() {
+      updatePageTitle('لوحة التحكم', 'نظرة عامة على النظام');
+      
+      const totalUsers = allUsers.length;
+      const newUsersCount = newUsers.length;
+      const giftedUsers = allUsers.filter(u => u.hasReceivedGift).length;
+      const totalGifts = allUsers.reduce((sum, user) => sum + (user.giftCount || 0), 0);
+      const totalBalance = allUsers.reduce((sum, user) => sum + user.totalBalance, 0);
+      
+      const content = `
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(0, 122, 255, 0.1); color: var(--primary);">👥</div>
+            <div class="stat-value">${totalUsers}</div>
+            <div class="stat-label">إجمالي المستخدمين</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(52, 199, 89, 0.1); color: var(--success);">💰</div>
+            <div class="stat-value">$${totalBalance.toFixed(0)}</div>
+            <div class="stat-label">إجمالي الأرصدة</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(255, 149, 0, 0.1); color: var(--warning);">🆕</div>
+            <div class="stat-value">${newUsersCount}</div>
+            <div class="stat-label">مستخدمين جدد</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(88, 86, 214, 0.1); color: var(--secondary);">🎁</div>
+            <div class="stat-value">${giftedUsers}</div>
+            <div class="stat-label">مستلمين هدايا</div>
+          </div>
+        </div>
+        
+        <div class="content-section">
+          <div class="section-header">
+            <h3 class="section-title">المستخدمين الجدد</h3>
+            <span class="section-badge">${newUsersCount}</span>
+          </div>
+          
+          ${newUsers.length > 0 ? `
+            <div class="users-list">
+              ${newUsers.slice(0, 3).map(user => `
+                <div class="user-card" data-user-id="${user.id}">
+                  <div class="user-header">
+                    <div class="user-info">
+                      <div class="user-avatar">${user.name.charAt(0)}</div>
+                      <div class="user-details">
+                        <div class="user-name">${user.name}</div>
+                        <div class="user-id">${user.username}</div>
+                      </div>
+                    </div>
+                    <div class="user-status">
+                      <div class="status-dot new"></div>
+                      <span style="font-size: 12px;">جديد</span>
+                    </div>
+                  </div>
+                  
+                  <div class="user-stats">
+                    <div class="stat-item">
+                      <span class="stat-item-label">تاريخ التسجيل</span>
+                      <span class="stat-item-value">${formatDateShort(user.createdAt)}</span>
+                    </div>
+                    <div class="stat-item">
+                      <span class="stat-item-label">الرصيد</span>
+                      <span class="stat-item-value">$${user.totalBalance.toFixed(2)}</span>
+                    </div>
+                  </div>
+                  
+                  <button class="quick-gift-btn" onclick="sendQuickGift('${user.id}', 'USDT', 100)">
+                    <span>🎁</span>
+                    إرسال 100 USDT
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="empty-state">
+              <div class="empty-icon">🎉</div>
+              <div class="empty-text">لا يوجد مستخدمين جدد</div>
+              <div class="empty-subtext">جميع المستخدمين تلقوا هداياهم بالفعل</div>
+            </div>
+          `}
+        </div>
+        
+        <div class="content-section">
+          <div class="section-header">
+            <h3 class="section-title">إجراءات سريعة</h3>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="action-btn btn-primary" onclick="sendGiftToAllNewUsers()">
+              <span>🎁</span>
+              إرسال للجميع
+            </button>
+            <button class="action-btn btn-success" onclick="refreshData()">
+              <span>🔄</span>
+              تحديث البيانات
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('appContent').innerHTML = content;
+    }
+
+    // ========== صفحة الإعدادات ==========
+    async function loadSettingsPage() {
+      updatePageTitle('الإعدادات', 'تخصيص النظام');
+      
+      // تحميل الإعدادات
+      const settings = JSON.parse(localStorage.getItem('crynova_settings') || '{}');
+      
+      const content = `
+        <div class="content-section">
+          <div class="section-header">
+            <h3 class="section-title">إعدادات النظام</h3>
+          </div>
+          
+          <div class="gift-form">
+            <div class="form-group">
+              <label class="form-label">الهدية الترحيبية الافتراضية (USDT)</label>
+              <input type="number" class="form-input" id="defaultGiftAmount" value="${settings.defaultGiftAmount || 100}" min="1">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">رسالة الترحيب الافتراضية</label>
+              <textarea class="form-input" id="defaultGiftMessage" rows="3">${settings.defaultGiftMessage || 'مرحباً بك في محفظة Crynova الرقمية! لقد قمنا بإضافة هدية ترحيبية لمحفظتك. استمتع بتجربتك معنا.'}</textarea>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">عدد الأيام لاعتبار المستخدم "جديد"</label>
+              <select class="form-select" id="newUserDays">
+                <option value="1" ${(settings.newUserDays || 3) === 1 ? 'selected' : ''}>يوم واحد</option>
+                <option value="3" ${(settings.newUserDays || 3) === 3 ? 'selected' : ''}>3 أيام</option>
+                <option value="7" ${(settings.newUserDays || 3) === 7 ? 'selected' : ''}>أسبوع</option>
+                <option value="30" ${(settings.newUserDays || 3) === 30 ? 'selected' : ''}>شهر</option>
+              </select>
+            </div>
+            
+            <button class="action-btn btn-success full-width" onclick="saveSettings()">
+              <span>💾</span>
+              حفظ الإعدادات
+            </button>
+          </div>
+        </div>
+      `;
+      
+      document.getElementById('appContent').innerHTML = content;
+    }
+
+    // ========== دوال الهدايا ==========
+    async function sendQuickGift(userId, currency, amount) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) {
+        showToast('❌ المستخدم غير موجود', 'error');
+        return;
+      }
+      
+      // التحقق من عدم تلقي الهدية مسبقاً
+      if (user.hasReceivedGift) {
+        showToast('⚠️ هذا المستخدم تلقى هدية مسبقاً', 'warning');
+        return;
+      }
+      
+      // التحقق من سجل الهدايا المحلي
+      if (giftHistory[userId]) {
+        showToast('⚠️ تم إرسال هدية لهذا المستخدم مسبقاً', 'warning');
+        return;
+      }
+      
+      showConfirm('إرسال هدية', 
+        `هل تريد إرسال ${amount} ${currency} إلى ${user.name}؟\n\nهذا الإجراء نهائي ولا يمكن التراجع عنه.`,
+        async () => {
+          await processGift(user, currency, amount, 'هدية سريعة من المسؤول');
+        }
+      );
+    }
+
+    async function sendGiftToAllNewUsers() {
+      if (newUsers.length === 0) {
+        showToast('❌ لا يوجد مستخدمين جدد لإرسال الهدايا لهم', 'warning');
+        return;
+      }
+      
+      showConfirm('إرسال هدايا للجميع',
+        `هل تريد إرسال 100 USDT إلى جميع المستخدمين الجدد (${newUsers.length} مستخدم)؟\n\nسيتم إرسال الهدايا بشكل فردي ولا يمكن التراجع عنها.`,
+        async () => {
+          showLoading(true);
+          let successCount = 0;
+          let errorCount = 0;
+          
+          for (const user of newUsers) {
+            try {
+              // التحقق من عدم تلقي الهدية مسبقاً
+              if (!user.hasReceivedGift && !giftHistory[user.id]) {
+                await processGift(user, 'USDT', 100, 'هدية ترحيبية جماعية');
+                successCount++;
+                
+                // تأخير قصير بين كل هدية
+                await new Promise(resolve => setTimeout(resolve, 300));
+              }
+            } catch (error) {
+              console.error(`❌ Error sending gift to ${user.name}:`, error);
+              errorCount++;
+            }
+          }
+          
+          showLoading(false);
+          
+          if (successCount > 0) {
+            showToast(`✅ تم إرسال الهدايا إلى ${successCount} مستخدم${errorCount > 0 ? `، فشل ${errorCount}` : ''}`);
+            await refreshData();
+          } else {
+            showToast('⚠️ لم يتم إرسال أي هدايا', 'warning');
+          }
+        }
+      );
+    }
+
+    async function processGift(user, currency, amount, message) {
+      showLoading(true);
+      
+      try {
+        // محاكاة تأخير الشبكة
+        await new Promise(resolve => setTimeout(resolve, 800));
+        
+        if (db) {
+          // تحديث قاعدة البيانات
+          const userRef = db.collection('wallets').doc(user.id);
+          const userDoc = await userRef.get();
+          
+          if (userDoc.exists) {
+            const userData = userDoc.data();
+            const currentBalance = userData.balances?.[currency] || 0;
+            const newBalance = currentBalance + amount;
+            
+            // تحديث بيانات المستخدم
+            await userRef.update({
+              [`balances.${currency}`]: newBalance,
+              hasReceivedGift: true,
+              giftCount: (userData.giftCount || 0) + 1,
+              lastGiftDate: new Date(),
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            
+            // تسجيل المعاملة
+            await db.collection('transactions').add({
+              userId: user.id,
+              userName: user.name,
+              type: 'gift',
+              amount: amount,
+              currency: currency,
+              message: message || 'هدية من المسؤول',
+              adminId: currentAdmin?.username || 'system',
+              status: 'completed',
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        }
+        
+        // تحديث البيانات المحلية
+        user.balances[currency] = (user.balances[currency] || 0) + amount;
+        user.hasReceivedGift = true;
+        user.giftCount = (user.giftCount || 0) + 1;
+        user.lastGiftDate = new Date();
+        
+        // تحديث الرصيد الإجمالي
+        user.totalBalance += amount * (coinInfo[currency]?.value || 0);
+        
+        // حفظ في سجل الهدايا المحلي
+        giftHistory[user.id] = {
+          date: new Date().toISOString(),
+          amount: amount,
+          currency: currency
+        };
+        localStorage.setItem('crynova_gift_history', JSON.stringify(giftHistory));
+        
+        showToast(`✅ تم إرسال ${amount} ${currency} إلى ${user.name}`);
+        
+        // تحديث القوائم وإخفاء المستخدم
+        updateUsersLists();
+        
+        // إعادة تحميل الصفحة الحالية
+        loadPageContent(currentPage);
+        
+      } catch (error) {
+        console.error('❌ Error processing gift:', error);
+        showToast('❌ حدث خطأ في إرسال الهدية', 'error');
+      } finally {
+        showLoading(false);
+      }
+    }
+
+    // ========== دوال مساعدة ==========
+    function formatDateShort(date) {
+      const d = new Date(date);
+      const now = new Date();
+      const diff = now - d;
+      
+      if (diff < 24 * 60 * 60 * 1000) {
+        // أقل من يوم
+        return 'اليوم';
+      } else if (diff < 48 * 60 * 60 * 1000) {
+        // أقل من يومين
+        return 'أمس';
+      } else if (diff < 7 * 24 * 60 * 60 * 1000) {
+        // أقل من أسبوع
+        const days = Math.floor(diff / (24 * 60 * 60 * 1000));
+        return `منذ ${days} يوم`;
+      } else {
+        // أكثر من أسبوع
+        const day = d.getDate().toString().padStart(2, '0');
+        const month = (d.getMonth() + 1).toString().padStart(2, '0');
+        return `${day}/${month}`;
+      }
+    }
+
+    function refreshData() {
+      showLoading(true);
+      loadAppData().then(() => {
+        showLoading(false);
+        showToast('✅ تم تحديث البيانات');
+      });
+    }
+
+    // ========== دوال الإعدادات ==========
+    function loadSettings() {
+      const saved = localStorage.getItem('crynova_settings');
+      if (saved) {
+        return JSON.parse(saved);
+      }
+      return {};
+    }
+
+    function saveSettings() {
+      const settings = {
+        defaultGiftAmount: parseInt(document.getElementById('defaultGiftAmount').value) || 100,
+        defaultGiftMessage: document.getElementById('defaultGiftMessage').value,
+        newUserDays: parseInt(document.getElementById('newUserDays').value) || 3
+      };
+      
+      localStorage.setItem('crynova_settings', JSON.stringify(settings));
+      showToast('✅ تم حفظ الإعدادات');
+    }
+
+    // ========== بيانات تجريبية للتطوير ==========
+    function generateMockUsers(count) {
+      const users = [];
+      const firstNames = ['أحمد', 'محمد', 'علي', 'فاطمة', 'سارة', 'خالد', 'مريم', 'يوسف', 'نور', 'عمر'];
+      const lastNames = ['الزيدي', 'القحطاني', 'الغامدي', 'الشهري', 'العمري', 'الخالدي', 'المطيري', 'القرشي', 'السبيعي', 'الغربي'];
+      
+      for (let i = 1; i <= count; i++) {
+        const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+        const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+        const name = `${firstName} ${lastName}`;
+        const username = `user${1000 + i}`;
+        const userId = `user${1000 + i}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // تاريخ عشوائي خلال آخر 7 أيام
+        const createdAt = new Date();
+        createdAt.setDate(createdAt.getDate() - Math.floor(Math.random() * 7));
+        
+        // أرصدة عشوائية
+        const balances = {};
+        Object.keys(coinInfo).forEach(symbol => {
+          if (Math.random() > 0.5) {
+            balances[symbol] = parseFloat((Math.random() * 100).toFixed(4));
+          }
+        });
+        
+        // رصيد إجمالي
+        let totalBalance = 0;
+        Object.entries(balances).forEach(([symbol, amount]) => {
+          const coinValue = coinInfo[symbol]?.value || 0;
+          totalBalance += amount * coinValue;
+        });
+        
+        // حالة المستخدم (75% جدد، 25% تلقوا هدايا)
+        const hasReceivedGift = Math.random() > 0.75;
+        const isNew = !hasReceivedGift && (new Date() - createdAt) < (3 * 24 * 60 * 60 * 1000);
+        
+        users.push({
+          id: userId,
+          name: name,
+          username: username,
+          createdAt: createdAt,
+          totalBalance: totalBalance,
+          balances: balances,
+          isNew: isNew,
+          hasReceivedGift: hasReceivedGift,
+          giftCount: hasReceivedGift ? Math.floor(Math.random() * 3) : 0,
+          lastGiftDate: hasReceivedGift ? new Date(createdAt.getTime() + 1000 * 60 * 60 * 24) : null
+        });
+      }
+      
+      return users.sort((a, b) => b.createdAt - a.createdAt);
+    }
+  </script>
+</body>
+</html>
